@@ -4,6 +4,10 @@
  */
 package examplelibrary.Service;
 
+import examplelibrary.Service.Custom.Impl.BookCategoriesServiceImpl;
+import examplelibrary.Service.Custom.Impl.BookDetailsServiceImpl;
+import examplelibrary.Service.Custom.Impl.MemberDetailsServiceImpl;
+
 /**
  *
  * @author user
@@ -20,17 +24,21 @@ public class ServiceFactory {//Singletone
         return serviceFactory;
     }
     
-    public SuperService getSetvice(ServiceType serviceType){
+    public SuperService getService(ServiceType serviceType){
         switch (serviceType) {
             case BOOK_CATEGORIES:
-                return null;
+                return new BookCategoriesServiceImpl();
+            case BOOK_DETAILS:
+                return new BookDetailsServiceImpl();
+            case MEMBER_DETAILS:
+                return new MemberDetailsServiceImpl();
             default:
                 return null;
-               
+              
         }
     }
     
     public enum ServiceType{
-        BOOK_CATEGORIES
+        BOOK_CATEGORIES,BOOK_DETAILS,MEMBER_DETAILS
     }
 }

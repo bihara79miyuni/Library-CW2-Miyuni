@@ -5,6 +5,8 @@
 package examplelibrary.Controller;
 
 import examplelibrary.Dto.BookDetailsDto;
+import examplelibrary.Service.Custom.BookDetailsService;
+import examplelibrary.Service.ServiceFactory;
 import java.util.ArrayList;
 
 /**
@@ -12,23 +14,27 @@ import java.util.ArrayList;
  * @author user
  */
 public class BookDetailsController {
+    
+    private BookDetailsService bookDetailsService =(BookDetailsService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.BOOK_DETAILS);
+            
     public String save(BookDetailsDto bookDetailsDto)throws Exception{
-        return null;
+        return bookDetailsService.save(bookDetailsDto);
     }
     
     public String update(BookDetailsDto bookDetailsDto)throws Exception{
-        return null;
+        return bookDetailsService.update(bookDetailsDto);
     }
     
     public String delete(String bookId)throws Exception{
-       return null; 
+       return bookDetailsService.delete(bookId);
     }
     
     ArrayList<BookDetailsDto> getAll()throws Exception{
-        return null;
+        return bookDetailsService.getAll();
     }
     
     public BookDetailsDto get(String bookId)throws Exception{
-        return null;
+        return bookDetailsService.get(bookId);
+        
     }
 }
