@@ -4,10 +4,32 @@
  */
 package examplelibrary.Controller;
 
+import examplelibrary.Dto.MemberDetailsDto;
+import java.util.ArrayList;
+
 /**
  *
  * @author user
  */
 public class MemberDetailsController {
     
+    public String save(MemberDetailsDto memberDetailsDto)throws Exception{
+        return null;
+    }
+    
+    public String update(MemberDetailsDto memberDetailsDto)throws Exception{
+        return null;
+    }
+    
+    public String delete(String memberId)throws Exception{
+        return null;
+    }
+    
+    ArrayList<MemberDetailsDto> getAll()throws Exception{
+        return null;
+    }
+    
+    public MemberDetailsDto get(String memberId)throws Exception{
+        return null;
+    }
 }
