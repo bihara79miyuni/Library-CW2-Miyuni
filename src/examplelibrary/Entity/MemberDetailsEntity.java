@@ -2,23 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package examplelibrary.Dto;
+package examplelibrary.Entity;
 
 /**
  *
  * @author user
  */
-public class MemberDetailsDto {
+public class MemberDetailsEntity {
     private String memberId;
     private String name;
     private String address;
     private String contact;
     private String email;
 
-    public MemberDetailsDto() {
+    public MemberDetailsEntity() {
     }
 
-    public MemberDetailsDto(String memberId, String name, String address, String contact, String email) {
+    public MemberDetailsEntity(String memberId, String name, String address, String contact, String email) {
         this.memberId = memberId;
         this.name = name;
         this.address = address;
@@ -98,10 +98,8 @@ public class MemberDetailsDto {
 
     @Override
     public String toString() {
-        return "MemberDetailsDto{" + "memberId=" + memberId + ", name=" + name + ", address=" + address + ", contact=" + contact + ", email=" + email + '}';
+        return "MemberDetailsEntity{" + "memberId=" + memberId + ", name=" + name + ", address=" + address + ", contact=" + contact + ", email=" + email + '}';
     }
 
-    
-    
     
 }
