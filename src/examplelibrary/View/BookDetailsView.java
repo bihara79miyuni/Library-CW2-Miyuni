@@ -4,6 +4,8 @@
  */
 package examplelibrary.View;
 
+import examplelibrary.Controller.BookDetailsController;
+import examplelibrary.Dto.BookDetailsDto;
 import javax.swing.JOptionPane;
 
 /**
@@ -12,10 +14,12 @@ import javax.swing.JOptionPane;
  */
 public class BookDetailsView extends javax.swing.JFrame {
 
+    private BookDetailsController bookDetailsController;
     /**
      * Creates new form BookDetailsView
      */
-    public BookDetailsView() {
+    public BookDetailsView()throws Exception {
+        bookDetailsController = new BookDetailsController();
         initComponents();
     }
 
@@ -75,6 +79,11 @@ public class BookDetailsView extends javax.swing.JFrame {
 
         btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnSave.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnSave.setText("Save");
@@ -86,6 +95,11 @@ public class BookDetailsView extends javax.swing.JFrame {
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -159,12 +173,9 @@ public class BookDetailsView extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtBookId)
                                 .addGap(3, 3, 3)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblIsbn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtIsbn, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3)))
+                            .addComponent(txtIsbn, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblAuthor, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
@@ -172,9 +183,7 @@ public class BookDetailsView extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblpublisher, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtPublisher, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3)))
+                            .addComponent(txtPublisher, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblLanguage, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtLanguage, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -192,12 +201,20 @@ public class BookDetailsView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
+        save();
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void lblBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblBackActionPerformed
         back();
     }//GEN-LAST:event_lblBackActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        update();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        delete();
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -260,6 +277,47 @@ public class BookDetailsView extends javax.swing.JFrame {
                 home.setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error");
+        }
+    }
+    
+    private void clearForm(){
+        txtBookId.setText("");
+        txtIsbn.setText("");
+        txtAuthor.setText("");
+        txtPublisher.setText("");
+        txtLanguage.setText("");
+    }
+    
+    private void save(){
+        try {
+            BookDetailsDto dto = new BookDetailsDto(txtBookId.getText(),Integer.parseInt(txtIsbn.getText()),txtAuthor.getText(),txtPublisher.getText(),txtLanguage.getText());
+            String resp = bookDetailsController.save(dto);
+            JOptionPane.showMessageDialog(this, resp);
+            clearForm();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error at save Book Details");
+        }
+    }
+    
+    private void update(){
+        try {
+            BookDetailsDto dto = new BookDetailsDto(txtBookId.getText(),Integer.parseInt(txtIsbn.getText()),txtAuthor.getText(),txtPublisher.getText(),txtLanguage.getText());
+            String resp = bookDetailsController.update(dto);
+            JOptionPane.showMessageDialog(this, resp);
+            clearForm();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error at update Book Details");
+        }
+    }
+    
+    private void delete(){
+        try {
+            String bookId = txtBookId.getText();
+            String resp = bookDetailsController.delete(bookId);
+            JOptionPane.showMessageDialog(this, resp);
+            clearForm();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error at delete BookDetails");
         }
     }
 }

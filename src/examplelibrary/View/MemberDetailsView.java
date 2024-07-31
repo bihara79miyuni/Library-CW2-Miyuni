@@ -4,6 +4,8 @@
  */
 package examplelibrary.View;
 
+import examplelibrary.Controller.MemberDetailsController;
+import examplelibrary.Dto.MemberDetailsDto;
 import javax.swing.JOptionPane;
 
 /**
@@ -12,10 +14,12 @@ import javax.swing.JOptionPane;
  */
 public class MemberDetailsView extends javax.swing.JFrame {
 
+    private MemberDetailsController memberDetailsController;
     /**
      * Creates new form MemeberDetailsView
      */
     public MemberDetailsView() {
+        memberDetailsController = new MemberDetailsController();
         initComponents();
     }
 
@@ -32,7 +36,7 @@ public class MemberDetailsView extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         lblMemberId = new javax.swing.JLabel();
-        txtmemberId = new javax.swing.JTextField();
+        txtMemberId = new javax.swing.JTextField();
         lblName = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
         lblAddress = new javax.swing.JLabel();
@@ -69,6 +73,11 @@ public class MemberDetailsView extends javax.swing.JFrame {
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnDelete.setText("Delete");
@@ -80,6 +89,11 @@ public class MemberDetailsView extends javax.swing.JFrame {
 
         btnSave.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -112,7 +126,7 @@ public class MemberDetailsView extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblMemberId, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtmemberId, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtMemberId, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -157,7 +171,7 @@ public class MemberDetailsView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtmemberId, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMemberId, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblMemberId, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -190,12 +204,20 @@ public class MemberDetailsView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+        delete();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         back();
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        save();
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        update();
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -249,8 +271,8 @@ public class MemberDetailsView extends javax.swing.JFrame {
     private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtContact;
     private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtMemberId;
     private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtmemberId;
     // End of variables declaration//GEN-END:variables
     private void back(){
         try {
@@ -260,4 +282,48 @@ public class MemberDetailsView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error");
         }
     }
+    
+    
+    private void clearForm(){
+        txtMemberId.setText("");
+        txtName.setText("");
+        txtAddress.setText("");
+        txtContact.setText("");
+        txtEmail.setText("");
+    }
+    
+    private void save(){
+        try {
+            MemberDetailsDto dto = new MemberDetailsDto(txtMemberId.getText(),txtName.getText(),txtAddress.getText(),txtContact.getText(),txtEmail.getText());
+            String rsp = memberDetailsController.save(dto);
+            JOptionPane.showMessageDialog(this, rsp);
+            clearForm();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error at save MemberDetails");
+        }
+    }
+    
+    private void update(){
+        try {
+            MemberDetailsDto dto =new MemberDetailsDto(txtMemberId.getText(),txtName.getText(),txtAddress.getText(),txtContact.getText(),txtEmail.getText());
+            String rsp = memberDetailsController.update(dto);
+            JOptionPane.showMessageDialog(this, rsp);
+            clearForm();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error at update MemberDetails");
+        }
+    }
+    
+    private void delete(){
+        try {
+            String memberId = txtMemberId.getText();
+            String resp = memberDetailsController.delete(memberId);
+            JOptionPane.showMessageDialog(this,resp);
+            clearForm();
+        } catch (Exception e) {    
+            JOptionPane.showMessageDialog(this, "Error at delete MemberDetails");
+        }
+    }
+    
+    
 }

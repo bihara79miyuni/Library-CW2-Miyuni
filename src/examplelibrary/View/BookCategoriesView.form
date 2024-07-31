@@ -79,7 +79,7 @@
                       <Component id="jLabel1" min="-2" pref="287" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="60" max="32767" attributes="0"/>
+              <EmptySpace pref="172" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -108,7 +108,6 @@
                               <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblGenre" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="genre" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
@@ -117,10 +116,7 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="lblTitle" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="txtTitle" min="-2" pref="27" max="-2" attributes="0"/>
-                              <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="txtTitle" alignment="0" min="-2" pref="27" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -199,6 +195,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Save"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnDelete">
       <Properties>
@@ -207,6 +206,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Delete"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnUpdate">
       <Properties>
@@ -215,6 +217,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Update"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator2">
     </Component>
@@ -229,17 +234,11 @@
     <Component class="javax.swing.JComboBox" name="genre">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="10">
-            <StringItem index="0" value="Fiction"/>
-            <StringItem index="1" value="Non Fiction"/>
-            <StringItem index="2" value="Children&apos;s Books"/>
-            <StringItem index="3" value="Educational"/>
-            <StringItem index="4" value="Comics and Graphics Novels"/>
-            <StringItem index="5" value="Proffesional and Technical"/>
-            <StringItem index="6" value="Religious and Spiritual"/>
-            <StringItem index="7" value="Literature"/>
-            <StringItem index="8" value="Hobbies and Crafts"/>
-            <StringItem index="9" value="Health and Wellness"/>
+          <StringArray count="4">
+            <StringItem index="0" value="1"/>
+            <StringItem index="1" value="2"/>
+            <StringItem index="2" value="3"/>
+            <StringItem index="3" value=" "/>
           </StringArray>
         </Property>
       </Properties>

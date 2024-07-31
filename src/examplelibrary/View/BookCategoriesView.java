@@ -4,6 +4,8 @@
  */
 package examplelibrary.View;
 
+import examplelibrary.Controller.BookCategoriesController;
+import examplelibrary.Dto.BookCategoriesDto;
 import javax.swing.JOptionPane;
 
 /**
@@ -11,12 +13,16 @@ import javax.swing.JOptionPane;
  * @author user
  */
 public class BookCategoriesView extends javax.swing.JFrame {
+    
+    BookCategoriesController bookCategoriesController;
 
     /**
      * Creates new form BookCategoriesView
      */
-    public BookCategoriesView() {
+    public BookCategoriesView() throws Exception{
+        bookCategoriesController = new BookCategoriesController();
         initComponents();
+        reformatComboBox();
     }
 
     /**
@@ -64,12 +70,27 @@ public class BookCategoriesView extends javax.swing.JFrame {
 
         btnSave.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Back");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -78,7 +99,7 @@ public class BookCategoriesView extends javax.swing.JFrame {
             }
         });
 
-        genre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fiction", "Non Fiction", "Children's Books", "Educational", "Comics and Graphics Novels", "Proffesional and Technical", "Religious and Spiritual", "Literature", "Hobbies and Crafts", "Health and Wellness" }));
+        genre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", " " }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -127,7 +148,7 @@ public class BookCategoriesView extends javax.swing.JFrame {
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(180, 180, 180)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(172, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,16 +170,13 @@ public class BookCategoriesView extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtIsbn)
                                 .addGap(3, 3, 3)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblGenre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(genre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3)))
+                            .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblCopies, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -179,6 +197,18 @@ public class BookCategoriesView extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         back();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        save();
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        update();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        delete();
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -238,6 +268,65 @@ public class BookCategoriesView extends javax.swing.JFrame {
                 home.setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error");
+        }
+    }
+    
+    
+        
+    
+    
+    private void reformatComboBox() {
+        genre.removeAllItems();
+        genre.addItem("Fiction");
+        genre.addItem("NonFiction");
+        genre.addItem("Educational");
+        genre.addItem("Childeren's");
+        genre.addItem("Comics and Graphic Novels");
+        genre.addItem("Proffesional and Technical");
+        genre.addItem("Religious and Spiritual");
+        genre.addItem("Literature");
+        genre.addItem("Hobbies and Crafts");
+        genre.addItem("Health and Wellness");
+    }
+    
+    private void clearForm(){
+        txtIsbn.setText("");
+        genre.setSelectedItem("");
+        txtTitle.setText("");
+        txtCopies.setText(""); 
+    }
+    
+    private void save(){
+        try {
+            BookCategoriesDto dto = new BookCategoriesDto(Integer.parseInt(txtIsbn.getText()),genre.getSelectedItem().toString(),txtTitle.getText(),Integer.parseInt(txtCopies.getText()));
+            String resp = bookCategoriesController.save(dto);
+            JOptionPane.showMessageDialog(this,resp);
+            clearForm();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error at save data");
+        }
+    }
+    
+    private void update(){
+        try {
+            BookCategoriesDto dto = new BookCategoriesDto(Integer.parseInt(txtIsbn.getText()),genre.getSelectedItem().toString(),txtTitle.getText(),Integer.parseInt(txtCopies.getText()));
+            String resp = bookCategoriesController.update(dto);
+            JOptionPane.showMessageDialog(this,resp);
+            clearForm();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error at update Data");
+        }
+    }
+    
+    private void delete(){
+        try {
+            Integer isbn = Integer.parseInt(txtIsbn.getText());
+            String resp = bookCategoriesController.delete(isbn);
+            JOptionPane.showMessageDialog(this,resp);
+            clearForm();
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,"Error at delete ");
         }
     }
 }
