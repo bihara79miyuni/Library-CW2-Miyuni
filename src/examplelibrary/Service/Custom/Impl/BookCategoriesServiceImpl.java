@@ -48,7 +48,7 @@ public class BookCategoriesServiceImpl implements BookCategoriesService{
     @Override
     public ArrayList<BookCategoriesDto> getAll() throws Exception {
         ArrayList<BookCategoriesEntity> bookCategoriesEntities = bookCategoriesDao.getAll();
-        if(bookCategoriesEntities != null && bookCategoriesEntities.isEmpty()){
+        if(bookCategoriesEntities != null && !bookCategoriesEntities.isEmpty()){
             ArrayList<BookCategoriesDto> bookCategoriesDtos = new ArrayList<>();
             
             for(BookCategoriesEntity bookCategoriesEntity : bookCategoriesEntities){

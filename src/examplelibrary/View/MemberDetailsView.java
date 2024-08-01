@@ -6,7 +6,9 @@ package examplelibrary.View;
 
 import examplelibrary.Controller.MemberDetailsController;
 import examplelibrary.Dto.MemberDetailsDto;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,8 +21,11 @@ public class MemberDetailsView extends javax.swing.JFrame {
      * Creates new form MemeberDetailsView
      */
     public MemberDetailsView() {
-        memberDetailsController = new MemberDetailsController();
         initComponents();
+        memberDetailsController = new MemberDetailsController();
+        loadTable();
+        
+        
     }
 
     /**
@@ -50,6 +55,8 @@ public class MemberDetailsView extends javax.swing.JFrame {
         btnDelete = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblMD = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,6 +108,24 @@ public class MemberDetailsView extends javax.swing.JFrame {
                 btnBackActionPerformed(evt);
             }
         });
+
+        tblMD.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblMD.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMDMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblMD);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -154,6 +179,10 @@ public class MemberDetailsView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(111, 111, 111))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,7 +226,9 @@ public class MemberDetailsView extends javax.swing.JFrame {
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
@@ -218,6 +249,10 @@ public class MemberDetailsView extends javax.swing.JFrame {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         update();
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void tblMDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMDMouseClicked
+        search();// TODO add your handling code here:
+    }//GEN-LAST:event_tblMDMouseClicked
 
     /**
      * @param args the command line arguments
@@ -260,6 +295,7 @@ public class MemberDetailsView extends javax.swing.JFrame {
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -268,6 +304,7 @@ public class MemberDetailsView extends javax.swing.JFrame {
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblMemberId;
     private javax.swing.JLabel lblName;
+    private javax.swing.JTable tblMD;
     private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtContact;
     private javax.swing.JTextField txtEmail;
@@ -298,6 +335,7 @@ public class MemberDetailsView extends javax.swing.JFrame {
             String rsp = memberDetailsController.save(dto);
             JOptionPane.showMessageDialog(this, rsp);
             clearForm();
+            loadTable();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error at save MemberDetails");
         }
@@ -305,10 +343,11 @@ public class MemberDetailsView extends javax.swing.JFrame {
     
     private void update(){
         try {
-            MemberDetailsDto dto =new MemberDetailsDto(txtMemberId.getText(),txtName.getText(),txtAddress.getText(),txtContact.getText(),txtEmail.getText());
+            MemberDetailsDto dto = new MemberDetailsDto(txtMemberId.getText(),txtName.getText(),txtAddress.getText(),txtContact.getText(),txtEmail.getText());
             String rsp = memberDetailsController.update(dto);
             JOptionPane.showMessageDialog(this, rsp);
             clearForm();
+            loadTable();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error at update MemberDetails");
         }
@@ -320,10 +359,50 @@ public class MemberDetailsView extends javax.swing.JFrame {
             String resp = memberDetailsController.delete(memberId);
             JOptionPane.showMessageDialog(this,resp);
             clearForm();
+            loadTable();
         } catch (Exception e) {    
             JOptionPane.showMessageDialog(this, "Error at delete MemberDetails");
         }
     }
     
+    private void loadTable(){
+        try {
+            String columns[] = {"MemberId","Name","Address","Contact","Email"};
+            DefaultTableModel dtm = new DefaultTableModel(columns,0){
+                @Override
+                public boolean isCellEditable(int row,int column){
+                    return false;
+                }
+            };
+            tblMD.setModel(dtm);
+            
+            ArrayList<MemberDetailsDto> memberDetailsDtos = memberDetailsController.getAll();
+            for ( MemberDetailsDto dto:memberDetailsDtos) {
+                Object rowData[] = {dto.getMemberId(),dto.getName(),dto.getAddress(),dto.getContact(),dto.getEmail()};
+                dtm.addRow(rowData);
+                
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error at Loading Data to Table");
+        }
+    }
     
+    private void search(){
+        try {
+            String memberId = tblMD.getValueAt(tblMD.getSelectedRow(), 0).toString();
+            MemberDetailsDto dto = memberDetailsController.get(memberId);
+
+            if (dto != null) {
+                txtMemberId.setText(dto.getMemberId());
+                txtName.setText(dto.getName());
+                txtAddress.setText(dto.getAddress());
+                txtContact.setText(dto.getContact());
+                txtEmail.setText(dto.getEmail());
+            } else {
+                JOptionPane.showMessageDialog(this, "Member Not Found");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error at loading memberDetails");
+        }
+    }
 }

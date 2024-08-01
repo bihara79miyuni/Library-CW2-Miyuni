@@ -48,7 +48,7 @@ public class MemberDetailsServiceImpl implements MemberDetailsService{
     @Override
     public ArrayList<MemberDetailsDto> getAll() throws Exception {
         ArrayList<MemberDetailsEntity> memberDetailsEntities = memberDetailsDao.getAll();
-        if(memberDetailsEntities != null && memberDetailsEntities.isEmpty()){
+        if(memberDetailsEntities != null && !memberDetailsEntities.isEmpty()){
             ArrayList<MemberDetailsDto> memberDetailsDtos = new ArrayList<>();
             
             for(MemberDetailsEntity memberDetailsEntity : memberDetailsEntities){

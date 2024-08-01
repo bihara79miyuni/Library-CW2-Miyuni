@@ -6,6 +6,7 @@ package examplelibrary.Service;
 
 import examplelibrary.Service.Custom.Impl.BookCategoriesServiceImpl;
 import examplelibrary.Service.Custom.Impl.BookDetailsServiceImpl;
+import examplelibrary.Service.Custom.Impl.BookReservationServiceImpl;
 import examplelibrary.Service.Custom.Impl.MemberDetailsServiceImpl;
 
 /**
@@ -32,6 +33,8 @@ public class ServiceFactory {//Singletone
                 return new BookDetailsServiceImpl();
             case MEMBER_DETAILS:
                 return new MemberDetailsServiceImpl();
+            case BOOK_RESERVATION:
+                return new BookReservationServiceImpl();
             default:
                 return null;
               
@@ -39,6 +42,6 @@ public class ServiceFactory {//Singletone
     }
     
     public enum ServiceType{
-        BOOK_CATEGORIES,BOOK_DETAILS,MEMBER_DETAILS
+        BOOK_CATEGORIES,BOOK_DETAILS,MEMBER_DETAILS,BOOK_RESERVATION
     }
 }

@@ -6,7 +6,9 @@ package examplelibrary.View;
 
 import examplelibrary.Controller.BookDetailsController;
 import examplelibrary.Dto.BookDetailsDto;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,8 +21,11 @@ public class BookDetailsView extends javax.swing.JFrame {
      * Creates new form BookDetailsView
      */
     public BookDetailsView()throws Exception {
-        bookDetailsController = new BookDetailsController();
         initComponents();
+        bookDetailsController = new BookDetailsController();
+        loadTable();
+        
+        
     }
 
     /**
@@ -49,6 +54,8 @@ public class BookDetailsView extends javax.swing.JFrame {
         btnSave = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblBD = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,6 +108,24 @@ public class BookDetailsView extends javax.swing.JFrame {
             }
         });
 
+        tblBD.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblBD.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblBDMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblBD);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -108,12 +133,6 @@ public class BookDetailsView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jSeparator1)
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblBack, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(236, 236, 236)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -152,6 +171,17 @@ public class BookDetailsView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jSeparator2)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblBack, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(236, 236, 236)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 766, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,7 +224,9 @@ public class BookDetailsView extends javax.swing.JFrame {
                     .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(336, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -215,6 +247,10 @@ public class BookDetailsView extends javax.swing.JFrame {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         delete();
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void tblBDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBDMouseClicked
+        search();// TODO add your handling code here:
+    }//GEN-LAST:event_tblBDMouseClicked
 
     /**
      * @param args the command line arguments
@@ -256,6 +292,7 @@ public class BookDetailsView extends javax.swing.JFrame {
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblAuthor;
@@ -264,6 +301,7 @@ public class BookDetailsView extends javax.swing.JFrame {
     private javax.swing.JLabel lblIsbn;
     private javax.swing.JLabel lblLanguage;
     private javax.swing.JLabel lblpublisher;
+    private javax.swing.JTable tblBD;
     private javax.swing.JTextField txtAuthor;
     private javax.swing.JTextField txtBookId;
     private javax.swing.JTextField txtIsbn;
@@ -294,6 +332,7 @@ public class BookDetailsView extends javax.swing.JFrame {
             String resp = bookDetailsController.save(dto);
             JOptionPane.showMessageDialog(this, resp);
             clearForm();
+            loadTable();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"Error at save Book Details");
         }
@@ -305,6 +344,7 @@ public class BookDetailsView extends javax.swing.JFrame {
             String resp = bookDetailsController.update(dto);
             JOptionPane.showMessageDialog(this, resp);
             clearForm();
+            loadTable();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"Error at update Book Details");
         }
@@ -316,8 +356,49 @@ public class BookDetailsView extends javax.swing.JFrame {
             String resp = bookDetailsController.delete(bookId);
             JOptionPane.showMessageDialog(this, resp);
             clearForm();
+            loadTable();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error at delete BookDetails");
+        }
+    }
+    
+    private void loadTable(){
+        try {
+            String columns[] = {"BookId","ISBN","Author","Publisher","Language"};
+            DefaultTableModel dtm = new DefaultTableModel(columns,0){
+                @Override
+                public boolean isCellEditable(int row,int column){
+                    return false;
+                }
+            };
+            tblBD.setModel(dtm);
+            
+            ArrayList<BookDetailsDto> bookDetailsDtos = bookDetailsController.getAll();
+            for ( BookDetailsDto dto:bookDetailsDtos) {
+                Object rowData[] = {dto.getBookId(),dto.getIsbn(),dto.getAuthor(),dto.getPublisher(),dto.getLanguage()};
+                dtm.addRow(rowData);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error at Loading Data to Table");
+        }
+    }
+    
+    private void search(){
+        try {
+            String bookId = tblBD.getValueAt(tblBD.getSelectedRow(), 0).toString();
+            BookDetailsDto dto = bookDetailsController.get(bookId);
+
+            if (dto != null) {
+                txtBookId.setText(dto.getBookId());
+                txtIsbn.setText(Integer.toString(dto.getIsbn()));
+                txtAuthor.setText(dto.getAuthor());
+                txtPublisher.setText(dto.getPublisher());
+                txtLanguage.setText(dto.getLanguage());
+            } else {
+                JOptionPane.showMessageDialog(this, "Item Not Found");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error at loading Book Deatils");
         }
     }
 }

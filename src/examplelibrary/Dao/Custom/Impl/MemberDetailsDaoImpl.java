@@ -50,7 +50,7 @@ public class MemberDetailsDaoImpl implements MemberDetailsDao{
     @Override
     public ArrayList<MemberDetailsEntity> getAll() throws Exception {
         ArrayList<MemberDetailsEntity> memberDetailsEntities = new ArrayList<>();
-         ResultSet rst =CrudUtil.executeQuery("SELECT * FROM memberdetails");
+         ResultSet rst = CrudUtil.executeQuery("SELECT * FROM memberdetails");
          while(rst.next()){
             MemberDetailsEntity entity = new MemberDetailsEntity(
                 rst.getString("MemberId"),

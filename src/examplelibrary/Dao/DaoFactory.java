@@ -6,6 +6,7 @@ package examplelibrary.Dao;
 
 import examplelibrary.Dao.Custom.Impl.BookCategoriesDaoImpl;
 import examplelibrary.Dao.Custom.Impl.BookDetailsDaoImpl;
+import examplelibrary.Dao.Custom.Impl.BookReservationDaoImpl;
 import examplelibrary.Dao.Custom.Impl.MemberDetailsDaoImpl;
 
 /**
@@ -32,12 +33,14 @@ public class DaoFactory {
                 return new BookDetailsDaoImpl();
             case MEMBER_DETAILS:
                 return new MemberDetailsDaoImpl();
+            case BOOK_RESERVATION:
+                return new BookReservationDaoImpl();
             default:
                 return null;
         }
     }
     
     public enum DaoTypes{
-        BOOK_CATEGORIES,BOOK_DETAILS,MEMBER_DETAILS
+        BOOK_CATEGORIES,BOOK_DETAILS,MEMBER_DETAILS,BOOK_RESERVATION
     }
 }

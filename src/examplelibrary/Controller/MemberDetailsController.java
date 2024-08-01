@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class MemberDetailsController {
     
-    private MemberDetailsService memberDetailsService =(MemberDetailsService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.MEMBER_DETAILS);
+    private MemberDetailsService memberDetailsService =(MemberDetailsService)ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.MEMBER_DETAILS);
     
     public String save(MemberDetailsDto memberDetailsDto)throws Exception{
         return memberDetailsService.save(memberDetailsDto);
@@ -29,7 +29,7 @@ public class MemberDetailsController {
         return memberDetailsService.delete(memberId);
     }
     
-    ArrayList<MemberDetailsDto> getAll()throws Exception{
+    public ArrayList<MemberDetailsDto> getAll()throws Exception{
         return memberDetailsService.getAll();
     }
     

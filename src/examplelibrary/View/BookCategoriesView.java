@@ -6,7 +6,9 @@ package examplelibrary.View;
 
 import examplelibrary.Controller.BookCategoriesController;
 import examplelibrary.Dto.BookCategoriesDto;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,9 +22,12 @@ public class BookCategoriesView extends javax.swing.JFrame {
      * Creates new form BookCategoriesView
      */
     public BookCategoriesView() throws Exception{
-        bookCategoriesController = new BookCategoriesController();
         initComponents();
         reformatComboBox();
+        bookCategoriesController = new BookCategoriesController();  
+        loadTable();
+        
+        
     }
 
     /**
@@ -34,6 +39,7 @@ public class BookCategoriesView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSeparator3 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         lblIsbn = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -49,6 +55,8 @@ public class BookCategoriesView extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
         jButton1 = new javax.swing.JButton();
         genre = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblBC = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,6 +109,24 @@ public class BookCategoriesView extends javax.swing.JFrame {
 
         genre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", " " }));
 
+        tblBC.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblBC.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblBCMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblBC);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -147,8 +173,11 @@ public class BookCategoriesView extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(180, 180, 180)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(172, Short.MAX_VALUE))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 769, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,7 +217,9 @@ public class BookCategoriesView extends javax.swing.JFrame {
                     .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(328, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(110, Short.MAX_VALUE))
         );
 
         pack();
@@ -209,6 +240,10 @@ public class BookCategoriesView extends javax.swing.JFrame {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         delete();
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void tblBCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBCMouseClicked
+        search();
+    }//GEN-LAST:event_tblBCMouseClicked
 
     /**
      * @param args the command line arguments
@@ -252,12 +287,15 @@ public class BookCategoriesView extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> genre;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JLabel lblCopies;
     private javax.swing.JLabel lblGenre;
     private javax.swing.JLabel lblIsbn;
     private javax.swing.JLabel lblTitle;
+    private javax.swing.JTable tblBC;
     private javax.swing.JTextField txtCopies;
     private javax.swing.JTextField txtIsbn;
     private javax.swing.JTextField txtTitle;
@@ -302,6 +340,7 @@ public class BookCategoriesView extends javax.swing.JFrame {
             String resp = bookCategoriesController.save(dto);
             JOptionPane.showMessageDialog(this,resp);
             clearForm();
+            loadTable();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"Error at save data");
         }
@@ -313,6 +352,7 @@ public class BookCategoriesView extends javax.swing.JFrame {
             String resp = bookCategoriesController.update(dto);
             JOptionPane.showMessageDialog(this,resp);
             clearForm();
+            loadTable();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"Error at update Data");
         }
@@ -324,9 +364,53 @@ public class BookCategoriesView extends javax.swing.JFrame {
             String resp = bookCategoriesController.delete(isbn);
             JOptionPane.showMessageDialog(this,resp);
             clearForm();
+            loadTable();
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,"Error at delete ");
         }
     }
+    
+    private void loadTable(){
+        try {
+           String columns[] = {"ISBN","Genre","Title","NoOfCopies"};
+            DefaultTableModel dtm = new DefaultTableModel(columns,0){
+                @Override
+                public boolean isCellEditable(int row,int column){
+                    return false;
+                }
+            };
+            tblBC.setModel(dtm);
+            
+            ArrayList<BookCategoriesDto> bookCategoriesDtos = bookCategoriesController.getAll();
+            for ( BookCategoriesDto dto:bookCategoriesDtos) {
+                Object []rowData = {dto.getIsbn(),dto.getGenre(),dto.getTitle(),dto.getCopies()};
+                dtm.addRow(rowData);
+            
+            }
+        } catch (Exception e) {
+           JOptionPane.showMessageDialog(this, "Error at Loading Data to Table"); 
+        }
+    }
+    
+    private void search() {
+        try {
+            int isbn = (int) tblBC.getValueAt(tblBC.getSelectedRow(), 0);
+            BookCategoriesDto dto = bookCategoriesController.get(isbn);
+
+            if (dto != null) {
+                txtIsbn.setText(Integer.toString(dto.getIsbn()));
+                genre.setSelectedItem(dto.getGenre());
+                txtTitle.setText(dto.getTitle());
+                txtCopies.setText(Integer.toString(dto.getCopies()));
+       
+            } else {
+                JOptionPane.showMessageDialog(this, "Item Not Found");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error at loading BookCategories");
+        }
+    }
+    
 }

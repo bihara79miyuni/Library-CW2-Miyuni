@@ -29,7 +29,7 @@ public class BookDetailsController {
        return bookDetailsService.delete(bookId);
     }
     
-    ArrayList<BookDetailsDto> getAll()throws Exception{
+    public ArrayList<BookDetailsDto> getAll()throws Exception{
         return bookDetailsService.getAll();
     }
     
